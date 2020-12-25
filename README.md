@@ -1,5 +1,7 @@
 # todolist-vuex
 
+Another simple todo list, but using Vuex.
+
 ## Project setup
 ```
 npm install
