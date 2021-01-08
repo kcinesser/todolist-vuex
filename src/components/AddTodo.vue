@@ -32,17 +32,28 @@ export default {
 form {
   display: flex;
 }
+
 input[type="text"] {
   flex: 10;
   padding: 10px;
-  border: 1px solid #41b883;
+  border: 1px solid #39a0ed;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
   outline: 0;
 }
+
 input[type="submit"] {
   flex: 2;
-  background: #41b883;
+  background: #39a0ed;
   color: #fff;
-  border: 1px #41b883 solid;
+  border: 1px #39a0ed solid;
   cursor: pointer;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  transition: opacity 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+input[type="submit"]:hover {
+  opacity: 0.8;
 }
 </style>

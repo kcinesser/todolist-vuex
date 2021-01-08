@@ -3,13 +3,11 @@
     <h3>Todos</h3>
     <div class="legend">
       <span>Double click to mark as complete</span>
-      <span> <span class="incomplete-box"></span> = Incomplete </span>
-      <span> <span class="complete-box"></span> = Complete </span>
     </div>
     <div class="todos">
       <div
         @dblclick="onDblClick(todo)"
-        v-for="todo in allTodos"
+        v-for="todo in filteredTodos"
         :key="todo.id"
         class="todo"
         v-bind:class="{ 'is-complete': todo.completed }"
@@ -27,7 +25,20 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Todos",
-  computed: mapGetters(["allTodos"]),
+  computed: {
+    ...mapGetters(["allTodos", "filterStatus"]),
+    filteredTodos: function () {
+      if (this.filterStatus)
+        return this.allTodos.filter((todo) => {
+          if (!todo.completed) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      else return this.allTodos;
+    },
+  },
   methods: {
     ...mapActions(["fetchTodos", "deleteTodo", "updateTodo"]),
     onDblClick(todo) {
@@ -52,15 +63,18 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
 }
+
 .todo {
   border: 1px solid #ccc;
-  background: #41b883;
+  background: #39a0ed;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 4px;
   text-align: center;
   position: relative;
   cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+
 i {
   position: absolute;
   bottom: 10px;
@@ -68,27 +82,18 @@ i {
   color: #fff;
   cursor: pointer;
 }
+
 .legend {
-  display: flex;
-  justify-content: space-around;
   margin-bottom: 1rem;
 }
-.complete-box {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: #35495e;
-}
-.incomplete-box {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: #41b883;
-}
+
 .is-complete {
   background: #35495e;
   color: #fff;
+  text-decoration: line-through;
+  opacity: 0.8;
 }
+
 @media (max-width: 500px) {
   .todos {
     grid-template-columns: 1fr;

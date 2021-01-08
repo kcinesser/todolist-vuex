@@ -2,11 +2,15 @@ import axios from "axios";
 
 const state = {
   todos: [],
+  filterComplete: false,
 };
 
 const getters = {
   allTodos: (state) => {
     return state.todos;
+  },
+  filterStatus: (state) => {
+    return state.filterComplete;
   },
 };
 
@@ -40,6 +44,9 @@ const actions = {
 
     commit("setTodos", response.data);
   },
+  async filterComplete({ commit }) {
+    commit("toggleComplete", !state.filterComplete);
+  },
   async updateTodo({ commit }, updatedTodo) {
     const response = await axios.put(
       `https://jsonplaceholder.typicode.com/todos/${updatedTodo.id}`,
@@ -49,6 +56,7 @@ const actions = {
     commit("updateTodo", response.data);
   },
 };
+
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
   newTodo: (state, todo) => state.todos.unshift(todo),
@@ -59,6 +67,9 @@ const mutations = {
     if (index !== -1) {
       state.todos.splice(index, 1, updatedTodo);
     }
+  },
+  toggleComplete: (state, value) => {
+    state.filterComplete = value;
   },
 };
 

@@ -9,15 +9,19 @@
       <option value="10">10</option>
       <option value="5">5</option>
     </select>
+    <button @click="filterComplete()" v-bind:class="{ active: filterStatus }">
+      Hide Complete
+    </button>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "FilterTodos",
-  methods: mapActions(["filterTodos"]),
+  methods: mapActions(["filterTodos", "filterComplete"]),
+  computed: mapGetters(["filterStatus"]),
 };
 </script>
 
@@ -25,6 +29,23 @@ export default {
 select {
   margin-top: 20px;
   padding: 6px;
-  border: #41b883 1px solid;
+  border: none;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+button {
+  background-color: #39a0ed;
+  outline: 0;
+  border: none;
+  border-radius: 4px;
+  padding: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.active {
+  background-color: #35495e;
 }
 </style>
